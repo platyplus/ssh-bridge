@@ -1,0 +1,16 @@
+replicaCount: 1
+image:
+  pullPolicy: IfNotPresent
+  repository: r.cfcr.io/plmercereau/platyplus/ssh-bridge
+service:
+  name: ssh-bridge
+  type: ClusterIP
+  externalPort: 22
+  internalPort: 22
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi

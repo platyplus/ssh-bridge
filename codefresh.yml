@@ -1,0 +1,24 @@
+version: '1.0'
+steps:
+  BuildingDockerImage:
+    title: Building Docker Image
+    type: build
+    image_name: platyplus/ssh-bridge
+    working_directory: ./
+    tag: ${{CF_BRANCH_TAG_NORMALIZED}}
+    dockerfile: Dockerfile
+  StoreChart:
+    title: Storing Helm Chart
+    image: 'codefresh/cfstep-helm:2.9.1'
+    environment:
+     - ACTION=push
+     - CHART_REF=.
+  DeployChart:
+    title: Deploying the SSH bridge server chart...
+    image: 'codefresh/cfstep-helm:2.9.1'
+    environment:
+     - CHART_REF=.
+     - RELEASE_NAME=ssh-bridge
+     - KUBE_CONTEXT=main@platyplus
+     - VALUE_image_pullPolicy=Always
+     - VALUE_image_tag=${{CF_BRANCH_TAG_NORMALIZED}}
